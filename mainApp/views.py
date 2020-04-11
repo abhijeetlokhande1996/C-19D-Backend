@@ -66,10 +66,9 @@ def getAggregatedCsv(request):
             continue
 
         try:
-            responseDict[countryName]["confirmed"] += confirmedCases - \
-                recoveredCases - deaths
-            responseDict[countryName]["recovered"] += recoveredCases
-            responseDict[countryName]["deaths"] += deaths
+            responseDict[countryName]["confirmed"] = confirmedCases
+            responseDict[countryName]["recovered"] = recoveredCases
+            responseDict[countryName]["deaths"] = deaths
 
         except KeyError:
             responseDict[countryName] = {}
