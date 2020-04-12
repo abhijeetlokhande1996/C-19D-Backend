@@ -7,12 +7,18 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 import json
 from collections import defaultdict
+from mainApp.models import UserCountTable
 
 # Create your views here.
 CWD = os.getcwd()
 
 
 def index(request):
+    rs = UserCountTable.objects.all()
+    item = rs[0]
+    count = int(item.count) + 1
+    item.count = count
+    item.save()
     return JsonResponse({"name": "Abhijeet"})
 
 
@@ -35,26 +41,7 @@ def getCountryRegionMapping(request):
 
     return JsonResponse(responseDict)
 
-    # responseDict = defaultdict(list)
-    # try:
-    #     with open('country-region-mapping.csv', 'r') as file:
-    #         reader = csv.reader(file)
-    #         for idx, row in enumerate(reader):
-    #             if idx == 0:
-    #                 continue
-    #             regionName = row[5]
-    #             if not regionName:
-    #                 continue
-    #             countryName = row[0]
-    #             try:
-    #                 responseDict[regionName].append(countryName)
-    #             except KeyError:
-    #                 responseDict[regionName] = []
-    # except Exception as e:
-    #     print(e)
-    # finally:
-    #     pass
-    # return JsonResponse(responseDict)
+
 
 
 @csrf_exempt
